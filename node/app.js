@@ -17,3 +17,6 @@ const server = http.createServer((req, res) => {
 server.listen(3000, () => {
   console.log("Server running on port 3000");
 });
+
+//  Dependencies = Essential parts for the app to run (like walls and roof)
+//  DevDependencies = Tools needed for development only (like hammer and blueprint)
