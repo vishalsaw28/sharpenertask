@@ -8,10 +8,10 @@ const addUser = (req, res, next) => {
   next();
 };
 
-app.use(addUser);
+// app.use(addUser);
 
-app.get("/", (req, res) => {
-  res.send(`Hello ${req.user}`);
+app.get("/welcome", addUser, (req, res) => {
+  res.send(`<h1>Welcome, ${req.user}!</h1>`);
 });
 
 app.listen(port, () => {
