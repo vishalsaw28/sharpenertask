@@ -1,16 +1,10 @@
-const getAllProducts = (req, res) => {
-  res.send("Fetching all products");
-};
+const productServices = require("../services/productServices");
 
-const addProducts = (req, res) => {
-  res.send("Adding a new product.");
-};
+const getAllProducts = productServices.gettigAllProduct;
 
-const getProductById = (req, res) => {
-  const pid = req.params.id;
+const addProducts = productServices.addingNewProduct;
 
-  res.send(`Fetching product with ID:${pid}`);
-};
+const getProductById = productServices.gettingSingleProductById;
 
 // const putProducts = (req, res) => {
 //   res.send("Put request called.");
@@ -24,6 +18,6 @@ module.exports = {
   getAllProducts,
   addProducts,
   getProductById,
-//   putProducts,
-//   deleteproducts,
+  //   putProducts,
+  //   deleteproducts,
 };
