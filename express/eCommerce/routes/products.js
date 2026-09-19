@@ -4,7 +4,10 @@ const router = express.Router();
 const productControllers = require("../controllers/productControllers");
 
 // router.get("/", productControllers.getAllProducts);
-router.get("/", productControllers.getProducts);
+router.get("/", productControllers.getForm);
+
+// router.get("/", productControllers.getProducts);
+
 
 router.post("/", productControllers.addProducts);
 

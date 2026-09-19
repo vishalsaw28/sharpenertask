@@ -2,6 +2,10 @@ const path = require("path");
 
 const productServices = require("../services/productServices");
 
+const getForm = (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "view", "form.html"));
+};
+
 const getProducts = (req, res) => {
   res.sendFile(path.join(__dirname, "..", "view", "product.html"));
 };
@@ -23,6 +27,7 @@ module.exports = {
   // getAllProducts,
   getProducts,
   addProducts,
+  getForm,
   getProductById,
   //   putProducts,
   //   deleteproducts,
