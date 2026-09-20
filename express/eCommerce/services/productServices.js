@@ -1,19 +1,33 @@
+const sendErrorResponse = require("../utils/response");
+
 const gettigAllProduct = (req, res) => {
-  res.send("Fetching all Products.");
+  try {
+    res.send("Fetching all Products.");
+  } catch (error) {
+    sendErrorResponse(res, err);
+  }
 };
 
 const gettingSingleProductById = (req, res) => {
-  const pid = req.params.id;
+  try {
+    const pid = req.params.id;
 
-  res.send(`Fetching product with ID:${pid}`);
+    res.send(`Fetching product with ID:${pid}`);
+  } catch (error) {
+    sendErrorResponse(res, err);
+  }
 };
 
 const addingNewProduct = (req, res) => {
-  // res.send("Adding a new Product.");
+  try {
+    // res.send("Adding a new Product.");
 
-  const data = req.body;
+    const data = req.body;
 
-  res.json({ value: data.productName });
+    res.json({ value: data.productName });
+  } catch (error) {
+    sendErrorResponse(res, err);
+  }
 };
 
 module.exports = {
