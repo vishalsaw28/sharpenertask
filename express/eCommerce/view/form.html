@@ -6,10 +6,13 @@
     <title>Document</title>
   </head>
   <body>
-    <label for="product">Product Name</label>
+    <form onsubmit="onSubmitHandler(event)">
+      <label>Product</label>
+      <input type="text" name="productName" />
+      <button type="submit">Add Product</button>
+    </form>
 
-    <input id="product" type="prodictname" />
-    
-    <button type="submit">Add Product</button>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../public/js/product.js"></script>
   </body>
 </html>

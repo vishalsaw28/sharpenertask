@@ -9,7 +9,11 @@ const gettingSingleProductById = (req, res) => {
 };
 
 const addingNewProduct = (req, res) => {
-  res.send("Adding a new Product.");
+  // res.send("Adding a new Product.");
+
+  const data = req.body;
+
+  res.json({ value: data.productName });
 };
 
 module.exports = {
