@@ -1,19 +1,27 @@
 const express = require("express");
-const mysql = require("mysql2");
+
 const db = require("./utils/db-connection");
 
-const studentRoutes = require("./routes/studentRoutes");
+const studentRoutes = require("./routes/studentsRoutes");
+
+const studentModel = require("./models/students");
 
 const app = express();
+
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
 
-app.use(express.json());
-
 app.use("/students", studentRoutes);
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
+db.sync({ force: false })
+  .then(() => {
+    app.listen(3000, () => {
+      console.log("Server is running on port 3000");
+    });
+  })
+  .catch((err) => {
+    console.log("Database sync failed:", err);
+  });
