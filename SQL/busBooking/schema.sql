@@ -1,0 +1,23 @@
+CREATE TABLE Users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255)
+);
+
+CREATE TABLE Buses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    busNumber VARCHAR(50),
+    totalSeats INT,
+    availableSeats INT
+);
+
+CREATE TABLE Bookings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    seatNumber INT
+);
+
+CREATE TABLE Payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    amountPaid INT,
+    paymentStatus VARCHAR(50)
+);
