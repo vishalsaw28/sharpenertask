@@ -1,13 +1,17 @@
 const express = require("express");
 
-const studentController = require("../controller/studentController");
+const studentController = require("../controller/studentsController");
 
 const router = express.Router();
 
-router.post("/", studentController.addEntries);
+router.post("/", studentController.addStudent);
 
-router.put("/:id", studentController.updateUser);
+router.get("/", studentController.getAllStudents);
 
-router.delete("/:id", studentController.deleteUser);
+router.get("/:id", studentController.getStudentById);
+
+router.put("/:id", studentController.updateStudent);
+
+router.delete("/:id", studentController.deleteStudent);
 
 module.exports = router;
