@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post("/", busController.addBus);
 
-router.get("/available/:seats", busController.getAvailableBuses);
+router.get("/available/:seats", busController.getBus);
 
 module.exports = router;
