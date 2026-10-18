@@ -27,7 +27,6 @@ const addBus = async (req, res) => {
     });
   }
 };
-
 const getBus = async (req, res) => {
   try {
     const seats = req.params.seats;

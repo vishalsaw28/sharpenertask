@@ -7,6 +7,7 @@ const Bookings = require("./models/Bookings");
 const Buses = require("./models/Buses");
 const Payments = require("./models/Payments");
 const Users = require("./models/Users");
+const bookingRoutes = require("./routes/bookingRoutes");
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use("/users", userRoutes);
 
 app.use("/buses", busRoutes);
+app.use("/booking", bookingRoutes);
 
 app.get("/", (req, res) => {
   res.send("Bus Booking API is running");

@@ -1,8 +1,7 @@
-const { Sequelize, DataTypes } = require("sequelize");
-
+const { DataTypes } = require("sequelize");
 const sequelize = require("../utils/db-connection");
 
-const bookings = sequelize.define("users", {
+const bookings = sequelize.define("bookings", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -16,12 +15,15 @@ const bookings = sequelize.define("users", {
   busId: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: "buses",
+      key: "id",
+    },
   },
   bookingDate: {
     type: DataTypes.DATE,
     allowNull: false,
   },
-
   seatNumber: {
     type: DataTypes.STRING,
     allowNull: false,
