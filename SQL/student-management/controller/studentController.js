@@ -1,6 +1,7 @@
 const db = require("../utils/db-connection");
 
 const Student = require("../models/students");
+const { IdentityCard } = require("../models");
 
 const addEntries = async (req, res) => {
   try {
@@ -13,6 +14,19 @@ const addEntries = async (req, res) => {
     res.status(201).send(`User with name:${name} is created `);
   } catch (error) {
     res.status(500).send(`Unable to make an entry.`);
+  }
+};
+
+const addingValuesToStudentAndIdentityTable = async (req, res) => {
+  try {
+    const student = await Student.create(req.body.student);
+    const idCard = await IdentityCard.create({
+      ...req.body.IdentityCard,
+      studentId: student.id,
+    });
+    res.status(201).json({ student, idCard });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -56,4 +70,5 @@ module.exports = {
   addEntries,
   updateEntry,
   deleteEntry,
+  addingValuesToStudentAndIdentityTable,
 };
