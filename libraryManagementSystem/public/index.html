@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library Management System</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <section>
+        <h1>Books</h1>
+
+        <form class="book-form">
+          <input
+            name="bookName"
+            id="in1"
+            type="text"
+            placeholder="Please enter Book name"
+          />
+
+          <button type="submit">Submit</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Borrowed Books</h2>
+
+        <div class="borrowed-books-container">
+          <div class="book-card">
+            <h3>Book Name: JavaScript Basics</h3>
+            <p>Book issuing date: 3:15 PM</p>
+            <p>Return date: 4:15 PM</p>
+            <h3>Current Fine: ₹0</h3>
+            <button type="button">Return Book</button>
+          </div>
+
+          <div class="book-card">
+            <h3>Book Name: React Guide</h3>
+            <p>Book issuing date: 2:00 PM</p>
+            <p>Return date: 3:00 PM</p>
+            <h3>Current Fine: ₹20</h3>
+            <button type="button">Return Book</button>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Returned Books</h2>
+
+        <div class="returned-book-container">
+          <h3>Book Name: Node.js Guide</h3>
+          <p>Final Fine: ₹0</p>
+          <p>Payment Status: Not Required</p>
+          <label>Returned</label>
+        </div>
+      </section>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
