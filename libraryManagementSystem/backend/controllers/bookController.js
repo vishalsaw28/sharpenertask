@@ -1,4 +1,4 @@
-const Book = require("../models/Book");
+const { Book, BorrowRecord } = require("../models");
 
 async function addBook(req, res) {
   try {
@@ -31,4 +31,41 @@ const getAllBooks = async (req, res) => {
   }
 };
 
-module.exports = { addBook, getAllBooks };
+const borrowBook = async (req, res) => {
+  try {
+    const { bookId } = req.params;
+    const book = await Book.findByPk(bookId);
+
+    if (!book) {
+      return res.status(404).json({ error: "Book is not found." });
+    }
+
+    if (book.status !== "available") {
+      return res
+        .status(400)
+        .json({ error: "Book is not available for borrowing." });
+    }
+
+    const borrowedAt = new Date();
+    const dueAt = new Date(borrowedAt.getTime() + 3600000);
+
+    const newRecord = await BorrowRecord.create({
+      bookId,
+      borrowedAt,
+      dueAt,
+      status: "borrowed",
+    });
+
+    await book.update({ status: "borrowed" });
+
+    return res.status(201).json({
+      message: "Book borrowed successfully.",
+      borrowRecord: newRecord,
+    });
+  } catch (error) {
+    console.log("Error fetching book: ", error);
+    return res.status(500).json({ error: "internal server error." });
+  }
+};
+
+module.exports = { addBook, getAllBooks, borrowBook };
