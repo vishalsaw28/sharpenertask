@@ -1,4 +1,5 @@
 const { Book, BorrowRecord } = require("../models");
+const { Op, Model } = require("sequelize");
 
 async function addBook(req, res) {
   try {
@@ -191,10 +192,43 @@ const payFine = async (req, res) => {
   }
 };
 
+const getBorrowedBooks = async (req, res) => {
+  try {
+    const borrowedBooks = await BorrowRecord.findAll({
+      where: {
+        status: {
+          [Op.in]: ["borrowed", "return_pending_payment"],
+        },
+      },
+
+      include: [
+        {
+          model: Book,
+          as: "book",
+        },
+      ],
+
+      order: [["createdAt", "Desc"]],
+    });
+
+    return res.status(200).josn({
+      message: "Borrowed Book fetched successfully.",
+      borrowedBooks,
+    });
+  } catch (error) {
+    console.error("Error fetching borrowed books", error);
+
+    return res.status(500).json({
+      error: "Internal server error.",
+    });
+  }
+};
+
 module.exports = {
   addBook,
   getAllBooks,
   borrowBook,
   returnBook,
   payFine,
+  getBorrowedBooks,
 };

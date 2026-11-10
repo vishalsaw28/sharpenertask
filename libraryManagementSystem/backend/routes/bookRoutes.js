@@ -14,4 +14,6 @@ router.post("/:bookId/borrow", borrowBook);
 
 router.post("/borrow-records/:recordId/pay-fine", payFine);
 
+router.get("/borrowed", getBorrowedBooks);
+
 module.exports = router;
