@@ -2,7 +2,6 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database"); // Adjust the path to your sequelize instance config
 
 const BorrowRecord = sequelize.define("BorrowRecord", {
- 
   borrowedAt: {
     type: DataTypes.DATE,
     allowNull: false,
@@ -34,7 +33,7 @@ const BorrowRecord = sequelize.define("BorrowRecord", {
     allowNull: false,
     defaultValue: "borrowed",
     validate: {
-      isIn: [["borrowed", "returned"]],
+      isIn: [["borrowed", "return_pending_payment", "returned"]],
     },
   },
 });

@@ -68,4 +68,88 @@ const borrowBook = async (req, res) => {
   }
 };
 
-module.exports = { addBook, getAllBooks, borrowBook };
+const returnBook = async (req, res) => {
+  try {
+    const { recordId } = req.params;
+
+    // Find the borrowing record and its associated book
+    const record = await BorrowRecord.findByPk(recordId, {
+      include: "book",
+    });
+
+    // Check whether the record exists
+    if (!record) {
+      return res.status(404).json({
+        error: "Borrow record not found.",
+      });
+    }
+
+    // Check whether the book is already returned
+    if (record.status !== "borrowed") {
+      return res.status(400).json({
+        error: "This book has already been returned or is awaiting payment.",
+      });
+    }
+
+    // Capture actual return time
+    const returnedAt = new Date();
+
+    // Calculate overdue time
+    const overDueTime = returnedAt - record.dueAt;
+
+    let finalAmount = 0;
+
+    // Calculate fine: ₹10 per started overdue hour
+    if (overDueTime > 0) {
+      const overDueHours = Math.ceil(overDueTime / 3600000);
+
+      finalAmount = overDueHours * 10;
+    }
+
+    // Prepare record update
+    const recordUpdateData = {
+      returnedAt,
+      fineAmount: finalAmount,
+    };
+
+    if (finalAmount === 0) {
+      // No fine: complete the return immediately
+      recordUpdateData.status = "returned";
+      recordUpdateData.paymentStatus = "not_required";
+
+      if (record.book) {
+        await record.book.update({
+          status: "available",
+        });
+      }
+    } else {
+      // Fine exists: wait for payment
+      recordUpdateData.status = "return_pending_payment";
+      recordUpdateData.paymentStatus = "pending";
+    }
+
+    // Save changes
+    await record.update(recordUpdateData);
+
+    return res.status(200).json({
+      message:
+        finalAmount === 0
+          ? "Book returned successfully with zero fine."
+          : `Book return initiated. Fine of ₹${finalAmount} is pending payment.`,
+      borrowRecord: record,
+    });
+  } catch (error) {
+    console.error("Error returning book:", error);
+
+    return res.status(500).json({
+      error: "Internal server error.",
+    });
+  }
+};
+
+module.exports = {
+  addBook,
+  getAllBooks,
+  borrowBook,
+  returnBook,
+};
