@@ -147,9 +147,54 @@ const returnBook = async (req, res) => {
   }
 };
 
+const payFine = async (req, res) => {
+  try {
+    const { recordId } = req.params;
+
+    const record = await BorrowRecord.findByPk(recordId, {
+      include: "book",
+    });
+
+    if (!record) {
+      return res.status(404).json({
+        error: "Borrow record not found.",
+      });
+    }
+
+    if (record.paymentStatus !== "pending") {
+      return res.status(400).josn({
+        error: "No pending paymnent found for this record.",
+      });
+    }
+
+    await record.update({
+      paymentStatus: "paid",
+      status: "returned",
+    });
+
+    if (record.book) {
+      await record.book.update({
+        status: "avaiable",
+      });
+    }
+
+    return res.status(200).josn({
+      message: "Fine paid successfully. Book returned. ",
+      borrowRecord: record,
+    });
+  } catch (error) {
+    console.error("Error processing fine payment: ", error);
+
+    return res.status(500).json({
+      error: "Internal server error.",
+    });
+  }
+};
+
 module.exports = {
   addBook,
   getAllBooks,
   borrowBook,
   returnBook,
+  payFine,
 };
