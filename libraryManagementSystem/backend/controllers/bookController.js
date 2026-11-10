@@ -224,6 +224,34 @@ const getBorrowedBooks = async (req, res) => {
   }
 };
 
+const getReturnedBooks = async (req, res) => {
+  try {
+    const returnedBooks = await BorrowRecord.findAll({
+      where: {
+        status: "returned",
+      },
+      include: [
+        {
+          model: Book,
+          as: "book",
+        },
+      ],
+      order: [["returnedAt", DESC]],
+    });
+
+    return res.status(200).json({
+      message: "Returned boooks fetched successfully.",
+      returnedBooks,
+    });
+  } catch (error) {
+    console.error("Error fetching returned books:", error);
+
+    return res.status(500).json({
+      error: "Internal servers error.",
+    });
+  }
+};
+
 module.exports = {
   addBook,
   getAllBooks,
@@ -231,4 +259,5 @@ module.exports = {
   returnBook,
   payFine,
   getBorrowedBooks,
+  getReturnedBooks,
 };
